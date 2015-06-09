@@ -14,7 +14,8 @@ angular
     'restangular'
   ])
   .config(function ($routeProvider, RestangularProvider) {
-    
+
+    // Set the base URL for Restangular.
     RestangularProvider.setBaseUrl('http://localhost:3000');
 
     $routeProvider
@@ -38,39 +39,38 @@ angular
         templateUrl: 'views/movie-view.html',
         controller: 'MovieViewCtrl'
       })
-      .when('/movie/:id/delete', {
-        templateUrl: 'views/movie-delete.html',
-        controller: 'MovieDeleteCtrl'
-      })
       .when('/movie/:id/edit', {
         templateUrl: 'views/movie-edit.html',
         controller: 'MovieEditCtrl'
+      })
+      .when('/movie/:id/delete', {
+        templateUrl: 'views/movie-delete.html',
+        controller: 'MovieDeleteCtrl'
       })
       .otherwise({
         redirectTo: '/'
       });
   })
-  .factory('MovieRestangular', function(Restangular) {
+  app.factory('MovieRestangular', function(Restangular) {
     return Restangular.withConfig(function(RestangularConfigurer) {
       RestangularConfigurer.setRestangularFields({
         id: '_id'
       });
     });
   })
-  .factory('Movie', function(MovieRestangular) {
+  app.factory('Movie', function(MovieRestangular) {
     return MovieRestangular.service('movie');
   })
-
   .directive('youtube', function() {
     return {
       restrict: 'E',
-      scoppe: {
+      scope: {
         src: '='
       },
       templateUrl: 'views/youtube.html'
     };
   })
-  .filter('trusted', function ($sce) {
+  app.filter('trusted', function ($sce) {
     return function(url) {
       return $sce.trustAsResourceUrl(url);
     };

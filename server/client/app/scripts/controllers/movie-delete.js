@@ -8,7 +8,7 @@
  * Controller of the clientApp
  */
 angular.module('clientApp')
-  .controller('MovieDeleteCtrl', function ($scope, $routeParams, Movie, $location) {
+  app.controller('MovieDeleteCtrl', function ($scope, $routeParams, Movie, $location) {
     $scope.movie = Movie.one($routeParams.id).get().$object;
     $scope.deleteMovie = function() {
       $scope.movie.remove().then(function() {
